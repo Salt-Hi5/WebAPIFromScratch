@@ -1,0 +1,68 @@
+
+
+BASED ON LECTURE : "MVC AND ENTITY
+FRAMEWORK"  (Week 9 wednesday)
+
+== General == 
+
+
+
+
+=== SETTING UP THE APP === 
+
+* App created with: dotnet new webapi -o webApiFromScratch
+* Add packages: 
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+* Add model class "Movie" that the database will be created on. 
+
+* Run the command: 
+dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc MovieContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries -api 
+
+    OVERVIEW: 
+        * Frontend: The "Views" folder
+        * Backend: The MoviesController class
+        * Database: Azure 
+
+* Create a new project of the current project: 
+    * npm create vite@latest
+        * Project & Package name: Frontent
+        * Framework: React
+    * Run these: 
+        cd Frontend
+        npm install
+        npm run dev
+* The app is now run at: Local:   http://127.0.0.1:5173/
+
+=== SETTING UP THE DATABASE ===
+
+* Use the "docker-compose.yml" (contained in the same folder as this file)
+    Just change the name of container_name:
+
+* docker-compose up -d  -> Runs the file 
+
+=== SETTING UP MIGRATION === 
+
+* cd into the backend. Run: dotnet ef migrations add InitialCreate 
+* In the appsettings.json: update the ConnectionStrings to: 
+    * "MovieContext": "Server=localhost,1433;Database=MoviesDb;User Id=sa;Password=Password_2_Change_4_Real_Cases_&;TrustServerCertificate=True;Trusted_Connection=False;MultipleActiveResultSets=true"
+    * The only things to change here are :
+        "MovieContext"  -> Change to whatever the context is named. 
+        Database=MoviesDb  -> "MoviesDb" is what we want the database to be named. 
+* Run: dotnet ef database update 
+
+= If this works, the database should show up in Azure under localhost,1433 -> Databases -> MoviesDb
+
+
+
+
+==============================================
+=========== MODIFYING THE DATABASE ===========
+==============================================
+
+<<<<<<<<< CONTINUE HERE :
+    * Add something to the database 
+    * Add stuff about how migration works here. 
