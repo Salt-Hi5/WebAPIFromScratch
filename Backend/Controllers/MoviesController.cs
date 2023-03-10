@@ -58,7 +58,7 @@ namespace webApiFromScratch.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(movie).State = EntityState.Modified;
+            _context.Entry(movie).State = EntityState.Modified; // Dafaq does this do 
 
             try
             {
