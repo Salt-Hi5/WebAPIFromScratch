@@ -27,14 +27,15 @@ dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc Movie
         * Backend: The MoviesController class
         * Database: Azure 
 
-* Create a new project of the current project: 
+* Set up the frontend: 
     * npm create vite@latest
         * Project & Package name: Frontent
         * Framework: React
     * Run these: 
         cd Frontend
         npm install
-        npm run dev
+        npm run dev -> This starts front end (Keep it running!)  [Run this from the frontend-folder]
+
 * The app is now run at: Local:   http://127.0.0.1:5173/
 
 === SETTING UP THE DATABASE ===
@@ -42,7 +43,9 @@ dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc Movie
 * Use the "docker-compose.yml" (contained in the same folder as this file)
     Just change the name of container_name:
 
-* docker-compose up -d  -> Runs the file 
+* docker-compose up -d  -> Starts the database. It seems to run until manually stopped (even if computer goes to sleep)
+    * If you want to stop the database, run: dock stop docker-compose
+
 
 === SETTING UP MIGRATION === 
 
@@ -57,7 +60,18 @@ dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc Movie
 = If this works, the database should show up in Azure under localhost,1433 -> Databases -> MoviesDb
 
 
+=== CONNECTING THE BACKEND AND FRONTENT === 
 
+* In the frontend "App.tsx" See and add the "fetch("http://localhost:5240/api/Movies")"-syntax. 
+
+* In the backend "Program.c"s", add the "app.UseCors(cors => ...)"-syntax  [The fronted must be restarted after this, otherwise you get the error: 
+    "No 'Access-Control-Allow-Origin' header is present..."
+]
+
+
+
+
+* Fix the "AllowAllOrigin" settings << ASK about him 
 
 ==============================================
 =========== MODIFYING THE DATABASE ===========

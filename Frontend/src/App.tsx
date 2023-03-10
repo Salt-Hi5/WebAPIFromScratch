@@ -1,34 +1,47 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type Movie = {
+  id: number,
+  name: string;
+  year: string;
+};
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+function App() {
+  const [ count, setCount ] = useState(0)
+  const [ movies, setMovies ] = useState<Movie[]>([])
+
+    useEffect(()  => {
+        fetch("http://localhost:5240/api/Movies")
+          .then(data => data.json())
+          .then(data => setMovies(data))
+          .then(data => console.log(data))
+    }, []);
+
+
+    return ( // Better solution
+      <p>
+        {movies.map((value) => // The map is important because it loops through the movie list and if it is empty, it returns null instead of BREATKING (The code otherwise breaks if trying to access a variable that has not yet loaded from the database)  
+          <p>{value.name}</p>
+        )}
       </p>
-    </div>
-  )
+    )
+
+
+    if (movies.length == 0) { // SCUFFED SOLUTION: Prevents the page from crashing due to attempt to access movies[0] before it has loades 
+      return (<p>loading...</p> )
+    } else {
+      return (
+        <div className="App">
+          <p>MAIN PAGE</p>
+          <p>
+            {movies[0].name}
+          </p>
+        </div>
+      )
+    }
+
 }
 
 export default App
